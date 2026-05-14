@@ -132,19 +132,31 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
-/* SA-MP style chat tokens */
+/* Minimal chat tokens (monochrome) */
 @theme inline {
   --color-samp-bg: var(--samp-bg);
   --color-samp-yellow: var(--samp-yellow);
   --color-samp-purple: var(--samp-purple);
   --color-samp-info: var(--samp-info);
+  --color-chat-fg: var(--chat-fg);
+  --color-chat-muted: var(--chat-muted);
+  --color-chat-dim: var(--chat-dim);
+  --color-chat-accent: var(--chat-accent);
+  --color-chat-surface: var(--chat-surface);
+  --color-chat-border: var(--chat-border);
 }
 
 :root {
-  --samp-bg: oklch(0.18 0.02 250);
-  --samp-yellow: #f1c40f;
-  --samp-purple: #c39bff;
-  --samp-info: #cfe9ff;
+  --samp-bg: oklch(0.14 0 0);
+  --samp-yellow: #d4d4d4;
+  --samp-purple: #a3a3a3;
+  --samp-info: #e5e5e5;
+  --chat-fg: #f5f5f5;
+  --chat-muted: rgba(245, 245, 245, 0.55);
+  --chat-dim: rgba(245, 245, 245, 0.35);
+  --chat-accent: #fafafa;
+  --chat-surface: rgba(10, 10, 10, 0.55);
+  --chat-border: rgba(255, 255, 255, 0.08);
 }
 
 @layer base {
@@ -158,41 +170,30 @@
   }
 }
 
-/* Pixel-y outlined font like SA-MP's chat (Tahoma bold + black stroke) */
+/* Clean modern chat type — no pixel stroke */
 .samp-text {
-  font-family: Tahoma, "Trebuchet MS", Verdana, system-ui, sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-  text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000,
-    0 0 2px rgba(0, 0, 0, 0.9);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Inter", "SF Pro Text", sans-serif;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
   -webkit-font-smoothing: antialiased;
 }
 
-/* Faux GTA SA backdrop so chat transparency is visible */
+/* Subtle dark backdrop so transparency reads */
 .bg-samp-scene {
   background:
-    radial-gradient(ellipse at 30% 20%, #ffb56b 0%, transparent 55%),
-    radial-gradient(ellipse at 70% 30%, #ff7a59 0%, transparent 60%),
-    linear-gradient(180deg,
-      #f5a45a 0%,
-      #d96b3c 28%,
-      #6b3a4a 55%,
-      #2a2540 78%,
-      #0f0f1a 100%);
+    radial-gradient(ellipse at 25% 15%, rgba(120, 120, 120, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 85%, rgba(60, 60, 60, 0.25) 0%, transparent 60%),
+    linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 60%, #050505 100%);
 }
 
 .bg-samp-vignette {
   background:
-    radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%),
-    repeating-linear-gradient(180deg, rgba(0,0,0,0) 0 3px, rgba(0,0,0,0.06) 3px 4px);
+    radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.6) 100%);
 }
 
-.samp-scroll::-webkit-scrollbar { width: 6px; }
-.samp-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.25); }
-.samp-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.35); border-radius: 3px; }
-.samp-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.55); }
-.samp-scroll { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.35) rgba(0,0,0,0.25); }
+.samp-scroll::-webkit-scrollbar { width: 4px; }
+.samp-scroll::-webkit-scrollbar-track { background: transparent; }
+.samp-scroll::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 2px; }
+.samp-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+.samp-scroll { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.12) transparent; }
