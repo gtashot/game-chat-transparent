@@ -147,16 +147,30 @@ function Index() {
 
       {/* Chat overlay — top-left, transparent like SA-MP */}
       <div className="absolute left-4 top-4 w-[min(560px,70vw)]">
-        <div
-          ref={listRef}
-          className={`samp-text flex flex-col gap-[2px] overflow-y-auto samp-scroll text-[15px] leading-[1.15] ${
-            typing ? "pointer-events-auto" : "pointer-events-none"
-          }`}
-          style={{ height: "calc(16 * 1.15 * 15px + 15 * 2px)" }}
-        >
-          {(typing ? messages : messages.slice(-16)).map((m) => (
-            <ChatLine key={m.id} m={m} />
-          ))}
+        <div className="relative">
+          <div
+            ref={listRef}
+            onScroll={onListScroll}
+            className={`samp-text flex flex-col gap-[2px] overflow-y-auto samp-scroll text-[15px] leading-[1.15] ${
+              typing ? "pointer-events-auto" : "pointer-events-none"
+            }`}
+            style={{ height: "calc(16 * 1.15 * 15px + 15 * 2px)" }}
+          >
+            {(typing ? messages : messages.slice(-16)).map((m) => (
+              <ChatLine key={m.id} m={m} />
+            ))}
+          </div>
+
+          {typing && unread > 0 && (
+            <button
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={scrollToBottom}
+              className="samp-text pointer-events-auto absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-samp-purple/90 px-3 py-1 text-[12px] text-white shadow-lg hover:bg-samp-purple"
+            >
+              {unread} mensaje{unread > 1 ? "s" : ""} nuevo{unread > 1 ? "s" : ""} ↓
+            </button>
+          )}
         </div>
 
 
