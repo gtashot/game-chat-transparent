@@ -120,15 +120,20 @@ function Index() {
       </div>
 
       {/* Chat overlay — top-left, transparent like SA-MP */}
-      <div className="pointer-events-none absolute left-4 top-4 w-[min(560px,70vw)]">
+      <div className="absolute left-4 top-4 w-[min(560px,70vw)]">
         <div
           ref={listRef}
-          className="samp-text flex max-h-[55vh] flex-col gap-[2px] overflow-hidden text-[15px] leading-[1.15]"
+          className={`samp-text flex flex-col gap-[2px] text-[15px] leading-[1.15] ${
+            typing
+              ? "pointer-events-auto max-h-[60vh] overflow-y-auto samp-scroll"
+              : "pointer-events-none"
+          }`}
         >
-          {messages.map((m) => (
+          {(typing ? messages : messages.slice(-16)).map((m) => (
             <ChatLine key={m.id} m={m} />
           ))}
         </div>
+
 
         {typing && (
           <form onSubmit={submit} className="pointer-events-auto mt-2">
