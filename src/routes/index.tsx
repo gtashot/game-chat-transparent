@@ -123,11 +123,10 @@ function Index() {
       <div className="absolute left-4 top-4 w-[min(560px,70vw)]">
         <div
           ref={listRef}
-          className={`samp-text flex flex-col gap-[2px] text-[15px] leading-[1.15] ${
-            typing
-              ? "pointer-events-auto max-h-[60vh] overflow-y-auto samp-scroll"
-              : "pointer-events-none"
+          className={`samp-text flex flex-col gap-[2px] overflow-y-auto samp-scroll text-[15px] leading-[1.15] ${
+            typing ? "pointer-events-auto" : "pointer-events-none"
           }`}
+          style={{ height: "calc(16 * 1.15 * 15px + 15 * 2px)" }}
         >
           {(typing ? messages : messages.slice(-16)).map((m) => (
             <ChatLine key={m.id} m={m} />
