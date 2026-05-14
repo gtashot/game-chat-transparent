@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from "react";
-import { Smile, Sticker, Image as ImageIcon, Hash, Settings, CornerDownLeft, ArrowDown } from "lucide-react";
+import { Smile, Sticker, Image as ImageIcon, Hash, Settings, CornerDownLeft, ArrowDown, UserPlus, EyeOff, Ban } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -234,16 +234,39 @@ function Index() {
 function ChatLine({ m }: { m: ChatMessage }) {
   if (m.type === "chat") {
     return (
-      <div className="text-white/90">
+      <div className="group/line relative text-white/90">
         <span className="font-semibold text-white">{m.author}</span>
         <span className="text-white/40"> · </span>
         <span className="text-white/85">{m.text}</span>
+        {m.author && m.author !== "You" && (
+          <div className="pointer-events-none absolute left-0 top-full z-20 mt-1 hidden min-w-[180px] overflow-hidden rounded-md border border-white/10 bg-black/85 shadow-lg backdrop-blur-md group-hover/line:block group-hover/line:pointer-events-auto">
+            <div className="border-b border-white/[0.06] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider" style={{ color: m.color ?? "#fff" }}>
+              {m.author}
+            </div>
+            <MenuItem icon={<UserPlus className="size-3.5" />}>Agregar como amigo</MenuItem>
+            <MenuItem icon={<EyeOff className="size-3.5" />}>Ocultar</MenuItem>
+            <MenuItem icon={<Ban className="size-3.5" />}>Ignorar</MenuItem>
+          </div>
+        )}
       </div>
     );
   }
   if (m.type === "action") return <div className="italic text-white/55">{m.text}</div>;
   if (m.type === "server") return <div className="text-white/45">{m.text}</div>;
   return <div className="text-white/60">{m.text}</div>;
+}
+
+function MenuItem({ icon, children }: { icon: ReactNode; children: ReactNode }) {
+  return (
+    <button
+      type="button"
+      onMouseDown={(e) => e.preventDefault()}
+      className="flex w-full items-center gap-2 px-3 py-1.5 text-left text-[12px] text-white/75 transition hover:bg-white/[0.06] hover:text-white"
+    >
+      {icon}
+      {children}
+    </button>
+  );
 }
 
 function ToolBtn({ title, children }: { title: string; children: ReactNode }) {
