@@ -232,3 +232,16 @@ function ChatLine({ m }: { m: ChatMessage }) {
   if (m.type === "server") return <div className="text-samp-yellow">{m.text}</div>;
   return <div className="text-samp-info">{m.text}</div>;
 }
+
+function ChatToolBtn({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <button
+      type="button"
+      title={title}
+      onMouseDown={(e) => e.preventDefault()}
+      className="samp-text rounded bg-white/5 px-2 py-0.5 text-white/90 hover:bg-white/15"
+    >
+      {children}
+    </button>
+  );
+}
