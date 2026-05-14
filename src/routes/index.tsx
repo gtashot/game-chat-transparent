@@ -136,26 +136,29 @@ function Index() {
 
   return (
     <main className="relative min-h-screen w-full overflow-hidden bg-samp-bg">
-      {/* Backdrop "game" scene so transparency is visible */}
       <div className="absolute inset-0 bg-samp-scene" aria-hidden />
       <div className="absolute inset-0 bg-samp-vignette" aria-hidden />
 
       {/* HUD hint */}
-      <div className="samp-text pointer-events-none absolute right-4 top-4 select-none text-right text-[13px] leading-tight text-white/85">
-        <div>Press <span className="rounded bg-black/55 px-1.5 py-0.5">T</span> to chat</div>
-        <div className="opacity-70">Try /me waves</div>
+      <div className="pointer-events-none absolute right-5 top-5 select-none text-right text-[12px] font-medium leading-tight text-white/50">
+        <div className="flex items-center justify-end gap-1.5">
+          <span>Press</span>
+          <kbd className="rounded border border-white/10 bg-white/[0.04] px-1.5 py-0.5 font-mono text-[11px] text-white/70">T</kbd>
+          <span>to chat</span>
+        </div>
+        <div className="mt-1 text-white/30">Try /me waves</div>
       </div>
 
-      {/* Chat overlay — top-left, transparent like SA-MP */}
-      <div className="absolute left-4 top-4 w-[min(560px,70vw)]">
+      {/* Chat overlay */}
+      <div className="absolute left-5 top-5 w-[min(520px,70vw)]">
         <div className="relative">
           <div
             ref={listRef}
             onScroll={onListScroll}
-            className={`samp-text flex flex-col gap-[2px] overflow-y-auto samp-scroll text-[15px] leading-[1.15] ${
+            className={`samp-text flex flex-col gap-1 overflow-y-auto samp-scroll pr-1 text-[14px] leading-[1.45] ${
               typing ? "pointer-events-auto" : "pointer-events-none"
             }`}
-            style={{ height: "calc(16 * 1.15 * 15px + 15 * 2px)" }}
+            style={{ height: "calc(16 * 1.45 * 14px + 15 * 4px)" }}
           >
             {(typing ? messages : messages.slice(-16)).map((m) => (
               <ChatLine key={m.id} m={m} />
@@ -167,19 +170,19 @@ function Index() {
               type="button"
               onMouseDown={(e) => e.preventDefault()}
               onClick={scrollToBottom}
-              className="samp-text pointer-events-auto absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-samp-purple/90 px-3 py-1 text-[12px] text-white shadow-lg hover:bg-samp-purple"
+              className="pointer-events-auto absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-white/10 bg-black/70 px-3 py-1 text-[11px] font-medium text-white/80 backdrop-blur-md transition hover:bg-black/85 hover:text-white"
             >
-              {unread} mensaje{unread > 1 ? "s" : ""} nuevo{unread > 1 ? "s" : ""} ↓
+              <ArrowDown className="size-3" />
+              {unread} nuevo{unread > 1 ? "s" : ""}
             </button>
           )}
         </div>
 
-
         {typing && (
-          <div className="pointer-events-auto mt-2 space-y-1">
+          <div className="pointer-events-auto mt-3 overflow-hidden rounded-lg border border-white/10 bg-black/55 backdrop-blur-md">
             <form onSubmit={submit}>
-              <div className="samp-text flex items-center gap-2 bg-black/45 px-2 py-1 text-[15px] text-white">
-                <span className="mr-1 select-none text-white/85">Say:</span>
+              <div className="flex items-center gap-2 px-3 py-2">
+                <span className="select-none text-[12px] font-medium uppercase tracking-wider text-white/40">Say</span>
                 <input
                   ref={inputRef}
                   value={input}
@@ -187,8 +190,8 @@ function Index() {
                   onKeyDown={onInputKey}
                   onBlur={() => !input && setTyping(false)}
                   maxLength={144}
-                  className="flex-1 bg-transparent text-white outline-none placeholder:text-white/40"
-                  placeholder="type a message, /me action, or /command"
+                  className="flex-1 bg-transparent text-[14px] font-normal text-white outline-none placeholder:text-white/30"
+                  placeholder="Message…"
                   autoComplete="off"
                   spellCheck={false}
                 />
@@ -196,23 +199,24 @@ function Index() {
                   type="submit"
                   onMouseDown={(e) => e.preventDefault()}
                   title="Enviar (Enter)"
-                  className="samp-text shrink-0 rounded bg-samp-purple/80 px-2 py-0.5 text-[12px] text-white hover:bg-samp-purple"
+                  className="flex shrink-0 items-center gap-1 rounded-md border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[11px] font-medium text-white/70 transition hover:border-white/20 hover:bg-white/[0.12] hover:text-white"
                 >
-                  Enter ↵
+                  Enter
+                  <CornerDownLeft className="size-3" />
                 </button>
               </div>
+              <div className="flex items-center gap-0.5 border-t border-white/[0.06] px-2 py-1.5">
+                <ToolBtn title="Emojis"><Smile className="size-3.5" /></ToolBtn>
+                <ToolBtn title="Stickers"><Sticker className="size-3.5" /></ToolBtn>
+                <ToolBtn title="GIF"><ImageIcon className="size-3.5" /></ToolBtn>
+                <Divider />
+                <ToolBtn title="Último comando"><span className="font-mono text-[11px]">/me waves</span></ToolBtn>
+                <ToolBtn title="Penúltimo comando"><span className="font-mono text-[11px]">/help</span></ToolBtn>
+                <Divider />
+                <ToolBtn title="Canales"><Hash className="size-3.5" /></ToolBtn>
+                <ToolBtn title="Configuración"><Settings className="size-3.5" /></ToolBtn>
+              </div>
             </form>
-            <div className="samp-text flex items-center gap-1 bg-black/35 px-2 py-1 text-[13px] text-white/90">
-              <ChatToolBtn title="Emojis">😊</ChatToolBtn>
-              <ChatToolBtn title="Stickers">🏷️</ChatToolBtn>
-              <ChatToolBtn title="GIF">GIF</ChatToolBtn>
-              <span className="mx-1 h-4 w-px bg-white/20" />
-              <ChatToolBtn title="Último comando">/me waves</ChatToolBtn>
-              <ChatToolBtn title="Penúltimo comando">/help</ChatToolBtn>
-              <span className="mx-1 h-4 w-px bg-white/20" />
-              <ChatToolBtn title="Canales"># canales</ChatToolBtn>
-              <ChatToolBtn title="Configuración">⚙</ChatToolBtn>
-            </div>
           </div>
         )}
       </div>
@@ -223,26 +227,31 @@ function Index() {
 function ChatLine({ m }: { m: ChatMessage }) {
   if (m.type === "chat") {
     return (
-      <div>
-        <span style={{ color: m.color }}>{m.author}:</span>{" "}
-        <span className="text-white">{m.text}</span>
+      <div className="text-white/90">
+        <span className="font-semibold text-white">{m.author}</span>
+        <span className="text-white/40"> · </span>
+        <span className="text-white/85">{m.text}</span>
       </div>
     );
   }
-  if (m.type === "action") return <div className="text-samp-purple">{m.text}</div>;
-  if (m.type === "server") return <div className="text-samp-yellow">{m.text}</div>;
-  return <div className="text-samp-info">{m.text}</div>;
+  if (m.type === "action") return <div className="italic text-white/55">{m.text}</div>;
+  if (m.type === "server") return <div className="text-white/45">{m.text}</div>;
+  return <div className="text-white/60">{m.text}</div>;
 }
 
-function ChatToolBtn({ title, children }: { title: string; children: ReactNode }) {
+function ToolBtn({ title, children }: { title: string; children: ReactNode }) {
   return (
     <button
       type="button"
       title={title}
       onMouseDown={(e) => e.preventDefault()}
-      className="samp-text rounded bg-white/5 px-2 py-0.5 text-white/90 hover:bg-white/15"
+      className="flex h-7 items-center justify-center rounded-md px-2 text-white/50 transition hover:bg-white/[0.06] hover:text-white/90"
     >
       {children}
     </button>
   );
+}
+
+function Divider() {
+  return <span className="mx-1 h-4 w-px bg-white/10" />;
 }
