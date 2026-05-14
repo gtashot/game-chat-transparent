@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from "react";
 import { Smile, Sticker, Image as ImageIcon, Hash, Settings, CornerDownLeft, ArrowDown, UserPlus, EyeOff, Ban, Flag, Reply } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -167,9 +168,20 @@ function Index() {
             }`}
             style={{ height: "calc(16 * 1.45 * 14px + 15 * 4px)" }}
           >
-            {(typing ? messages : messages.slice(-16)).map((m) => (
-              <ChatLine key={m.id} m={m} />
-            ))}
+            <AnimatePresence initial={false}>
+              {(typing ? messages : messages.slice(-16)).map((m) => (
+                <motion.div
+                  key={m.id}
+                  layout="position"
+                  initial={{ opacity: 0, y: 6, filter: "blur(2px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <ChatLine m={m} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
 
           {typing && unread > 0 && (
