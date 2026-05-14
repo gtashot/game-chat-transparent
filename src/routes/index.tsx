@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from "react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -175,23 +175,44 @@ function Index() {
 
 
         {typing && (
-          <form onSubmit={submit} className="pointer-events-auto mt-2">
-            <div className="samp-text flex items-center bg-black/45 px-2 py-1 text-[15px] text-white">
-              <span className="mr-1 select-none text-white/85">Say:</span>
-              <input
-                ref={inputRef}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={onInputKey}
-                onBlur={() => !input && setTyping(false)}
-                maxLength={144}
-                className="flex-1 bg-transparent text-white outline-none placeholder:text-white/40"
-                placeholder="type a message, /me action, or /command"
-                autoComplete="off"
-                spellCheck={false}
-              />
+          <div className="pointer-events-auto mt-2 space-y-1">
+            <form onSubmit={submit}>
+              <div className="samp-text flex items-center gap-2 bg-black/45 px-2 py-1 text-[15px] text-white">
+                <span className="mr-1 select-none text-white/85">Say:</span>
+                <input
+                  ref={inputRef}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={onInputKey}
+                  onBlur={() => !input && setTyping(false)}
+                  maxLength={144}
+                  className="flex-1 bg-transparent text-white outline-none placeholder:text-white/40"
+                  placeholder="type a message, /me action, or /command"
+                  autoComplete="off"
+                  spellCheck={false}
+                />
+                <button
+                  type="submit"
+                  onMouseDown={(e) => e.preventDefault()}
+                  title="Enviar (Enter)"
+                  className="samp-text shrink-0 rounded bg-samp-purple/80 px-2 py-0.5 text-[12px] text-white hover:bg-samp-purple"
+                >
+                  Enter ↵
+                </button>
+              </div>
+            </form>
+            <div className="samp-text flex items-center gap-1 bg-black/35 px-2 py-1 text-[13px] text-white/90">
+              <ChatToolBtn title="Emojis">😊</ChatToolBtn>
+              <ChatToolBtn title="Stickers">🏷️</ChatToolBtn>
+              <ChatToolBtn title="GIF">GIF</ChatToolBtn>
+              <span className="mx-1 h-4 w-px bg-white/20" />
+              <ChatToolBtn title="Último comando">/me waves</ChatToolBtn>
+              <ChatToolBtn title="Penúltimo comando">/help</ChatToolBtn>
+              <span className="mx-1 h-4 w-px bg-white/20" />
+              <ChatToolBtn title="Canales"># canales</ChatToolBtn>
+              <ChatToolBtn title="Configuración">⚙</ChatToolBtn>
             </div>
-          </form>
+          </div>
         )}
       </div>
     </main>
@@ -210,4 +231,17 @@ function ChatLine({ m }: { m: ChatMessage }) {
   if (m.type === "action") return <div className="text-samp-purple">{m.text}</div>;
   if (m.type === "server") return <div className="text-samp-yellow">{m.text}</div>;
   return <div className="text-samp-info">{m.text}</div>;
+}
+
+function ChatToolBtn({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <button
+      type="button"
+      title={title}
+      onMouseDown={(e) => e.preventDefault()}
+      className="samp-text rounded bg-white/5 px-2 py-0.5 text-white/90 hover:bg-white/15"
+    >
+      {children}
+    </button>
+  );
 }
