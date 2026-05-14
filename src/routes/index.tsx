@@ -232,20 +232,55 @@ function Index() {
 }
 
 function ChatLine({ m }: { m: ChatMessage }) {
+  const [openMenu, setOpenMenu] = useState<null | "name" | "msg">(null);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!openMenu) return;
+    const onDown = (e: MouseEvent) => {
+      if (!ref.current?.contains(e.target as Node)) setOpenMenu(null);
+    };
+    window.addEventListener("mousedown", onDown);
+    return () => window.removeEventListener("mousedown", onDown);
+  }, [openMenu]);
+
   if (m.type === "chat") {
+    const isOther = m.author && m.author !== "You";
     return (
-      <div className="group/line relative text-white/90">
-        <span className="font-semibold text-white">{m.author}</span>
+      <div ref={ref} className="relative text-white/90">
+        <button
+          type="button"
+          disabled={!isOther}
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => isOther && setOpenMenu(openMenu === "name" ? null : "name")}
+          className="font-semibold text-white hover:underline disabled:no-underline disabled:cursor-default"
+        >
+          {m.author}
+        </button>
         <span className="text-white/40"> · </span>
-        <span className="text-white/85">{m.text}</span>
-        {m.author && m.author !== "You" && (
-          <div className="pointer-events-none absolute left-0 top-full z-20 mt-1 hidden min-w-[180px] overflow-hidden rounded-md border border-white/10 bg-black/85 shadow-lg backdrop-blur-md group-hover/line:block group-hover/line:pointer-events-auto">
+        <button
+          type="button"
+          disabled={!isOther}
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => isOther && setOpenMenu(openMenu === "msg" ? null : "msg")}
+          className="text-left text-white/85 hover:text-white disabled:hover:text-white/85 disabled:cursor-default"
+        >
+          {m.text}
+        </button>
+        {openMenu === "name" && isOther && (
+          <div className="absolute left-0 top-full z-20 mt-1 min-w-[180px] overflow-hidden rounded-md border border-white/10 bg-black/85 shadow-lg backdrop-blur-md">
             <div className="border-b border-white/[0.06] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider" style={{ color: m.color ?? "#fff" }}>
               {m.author}
             </div>
             <MenuItem icon={<UserPlus className="size-3.5" />}>Agregar como amigo</MenuItem>
             <MenuItem icon={<EyeOff className="size-3.5" />}>Ocultar</MenuItem>
             <MenuItem icon={<Ban className="size-3.5" />}>Ignorar</MenuItem>
+          </div>
+        )}
+        {openMenu === "msg" && isOther && (
+          <div className="absolute left-0 top-full z-20 mt-1 min-w-[160px] overflow-hidden rounded-md border border-white/10 bg-black/85 shadow-lg backdrop-blur-md">
+            <MenuItem icon={<Reply className="size-3.5" />}>Responder</MenuItem>
+            <MenuItem icon={<Flag className="size-3.5" />}>Reportar</MenuItem>
           </div>
         )}
       </div>
