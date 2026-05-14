@@ -36,6 +36,16 @@ function Index() {
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const counter = useRef(INITIAL_MESSAGES.length);
+  const atBottomRef = useRef(true);
+  const [unread, setUnread] = useState(0);
+
+  const scrollToBottom = () => {
+    const el = listRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
+    atBottomRef.current = true;
+    setUnread(0);
+  };
 
   const pushMessage = (msg: Omit<ChatMessage, "id">) => {
     counter.current += 1;
@@ -49,17 +59,33 @@ function Index() {
       if (e.key === "t" || e.key === "T") {
         e.preventDefault();
         setTyping(true);
-        setTimeout(() => inputRef.current?.focus(), 0);
+        setTimeout(() => {
+          inputRef.current?.focus();
+          scrollToBottom();
+        }, 0);
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [typing]);
 
-  // Auto-scroll
+  // Auto-scroll only if user is already at the bottom; otherwise count unread
   useEffect(() => {
-    if (listRef.current) listRef.current.scrollTop = listRef.current.scrollHeight;
+    if (atBottomRef.current) {
+      if (listRef.current) listRef.current.scrollTop = listRef.current.scrollHeight;
+    } else {
+      setUnread((u) => u + 1);
+    }
   }, [messages]);
+
+  const onListScroll = () => {
+    const el = listRef.current;
+    if (!el) return;
+    const isBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 8;
+    atBottomRef.current = isBottom;
+    if (isBottom) setUnread(0);
+  };
+
 
   // Ambient fake traffic
   useEffect(() => {
