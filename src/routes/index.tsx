@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from "react";
-import { Smile, Sticker, Image as ImageIcon, Hash, Settings, CornerDownLeft, ArrowDown, UserPlus, EyeOff, Ban } from "lucide-react";
+import { Smile, Sticker, Image as ImageIcon, Hash, Settings, CornerDownLeft, ArrowDown, UserPlus, EyeOff, Ban, Flag, Reply } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
