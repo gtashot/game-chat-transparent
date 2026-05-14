@@ -233,7 +233,7 @@ function ChatLine({ m }: { m: ChatMessage }) {
   return <div className="text-samp-info">{m.text}</div>;
 }
 
-function ChatToolBtn({ title, children }: { title: string; children: React.ReactNode }) {
+function ChatToolBtn({ title, children }: { title: string; children: ReactNode }) {
   return (
     <button
       type="button"
