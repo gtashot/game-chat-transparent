@@ -60,14 +60,21 @@ function Index() {
       if (e.key === "t" || e.key === "T") {
         e.preventDefault();
         setTyping(true);
-        setTimeout(() => {
-          inputRef.current?.focus();
-          scrollToBottom();
-        }, 0);
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+  }, [typing]);
+
+  // Sync scroll to bottom + focus the moment typing opens, before paint
+  useLayoutEffect(() => {
+    if (typing) {
+      const el = listRef.current;
+      if (el) el.scrollTop = el.scrollHeight;
+      atBottomRef.current = true;
+      setUnread(0);
+      inputRef.current?.focus();
+    }
   }, [typing]);
 
   // Auto-scroll only if user is already at the bottom; otherwise count unread
