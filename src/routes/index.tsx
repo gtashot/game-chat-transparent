@@ -147,13 +147,13 @@ function Index() {
       <div className="absolute inset-0 bg-samp-vignette" aria-hidden />
 
       {/* HUD hint */}
-      <div className="pointer-events-none absolute right-5 top-5 select-none text-right text-[12px] font-medium leading-tight text-white/50">
+      <div className="samp-text pointer-events-none absolute right-5 top-5 select-none text-right text-[12px] font-semibold leading-tight text-white">
         <div className="flex items-center justify-end gap-1.5">
           <span>Press</span>
-          <kbd className="rounded border border-white/10 bg-white/[0.04] px-1.5 py-0.5 font-mono text-[11px] text-white/70">T</kbd>
+          <kbd className="rounded border border-white/20 bg-neutral-950 px-1.5 py-0.5 font-mono text-[11px] text-white shadow">T</kbd>
           <span>to chat</span>
         </div>
-        <div className="mt-1 text-white/30">Try /me waves</div>
+        <div className="mt-1 text-white/80">Try /me waves</div>
       </div>
 
       {/* Chat overlay */}
