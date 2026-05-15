@@ -268,8 +268,8 @@ function ChatLine({ m }: { m: ChatMessage }) {
           {m.text}
         </button>
         {openMenu === "name" && isOther && (
-          <div className="absolute left-0 top-full z-20 mt-1 min-w-[180px] overflow-hidden rounded-md border border-white/10 bg-black/85 shadow-lg backdrop-blur-md">
-            <div className="border-b border-white/[0.06] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider" style={{ color: m.color ?? "#fff" }}>
+          <div className="absolute left-0 top-full z-20 mt-1 min-w-[180px] overflow-hidden rounded-md border border-white/15 bg-neutral-950 shadow-2xl">
+            <div className="border-b border-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider" style={{ color: m.color ?? "#fff" }}>
               {m.author}
             </div>
             <MenuItem icon={<UserPlus className="size-3.5" />}>Agregar como amigo</MenuItem>
@@ -278,7 +278,7 @@ function ChatLine({ m }: { m: ChatMessage }) {
           </div>
         )}
         {openMenu === "msg" && isOther && (
-          <div className="absolute left-0 top-full z-20 mt-1 min-w-[160px] overflow-hidden rounded-md border border-white/10 bg-black/85 shadow-lg backdrop-blur-md">
+          <div className="absolute left-0 top-full z-20 mt-1 min-w-[160px] overflow-hidden rounded-md border border-white/15 bg-neutral-950 shadow-2xl">
             <MenuItem icon={<Reply className="size-3.5" />}>Responder</MenuItem>
             <MenuItem icon={<Flag className="size-3.5" />}>Reportar</MenuItem>
           </div>
