@@ -168,9 +168,20 @@ function Index() {
             }`}
             style={{ height: "calc(16 * 1.45 * 14px + 15 * 4px)" }}
           >
-            {(typing ? messages : messages.slice(-16)).map((m) => (
-              <ChatLine key={m.id} m={m} />
-            ))}
+            <AnimatePresence initial={false}>
+              {(typing ? messages : messages.slice(-16)).map((m) => (
+                <motion.div
+                  key={m.id}
+                  layout
+                  initial={{ opacity: 0, y: 6, filter: "blur(2px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: -4, filter: "blur(2px)" }}
+                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <ChatLine m={m} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
 
           {typing && unread > 0 && (
