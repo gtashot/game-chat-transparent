@@ -186,7 +186,7 @@ function Index() {
         </div>
 
         {typing && (
-          <div className="pointer-events-auto mt-3 overflow-hidden rounded-lg border border-white/10 bg-black/55 backdrop-blur-md">
+          <div className="pointer-events-auto mt-3 overflow-hidden rounded-lg border border-white/15 bg-neutral-950 shadow-2xl">
             <form onSubmit={submit}>
               <div className="flex items-center gap-2 px-3 py-2">
                 <span className="select-none text-[12px] font-medium uppercase tracking-wider text-white/40">Say</span>
