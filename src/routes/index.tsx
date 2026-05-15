@@ -197,47 +197,56 @@ function Index() {
           )}
         </div>
 
-        {typing && (
-          <div className="pointer-events-auto mt-3 overflow-hidden rounded-lg border border-white/15 bg-neutral-950 shadow-2xl">
-            <form onSubmit={submit}>
-              <div className="flex items-center gap-2 px-3 py-2">
-                <span className="select-none text-[12px] font-medium uppercase tracking-wider text-white/40">Say</span>
-                <input
-                  ref={inputRef}
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={onInputKey}
-                  onBlur={() => !input && setTyping(false)}
-                  maxLength={144}
-                  className="flex-1 bg-transparent text-[14px] font-normal text-white outline-none placeholder:text-white/30"
-                  placeholder="Message…"
-                  autoComplete="off"
-                  spellCheck={false}
-                />
-                <button
-                  type="submit"
-                  onMouseDown={(e) => e.preventDefault()}
-                  title="Enviar (Enter)"
-                  className="flex shrink-0 items-center gap-1 rounded-md border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[11px] font-medium text-white/70 transition hover:border-white/20 hover:bg-white/[0.12] hover:text-white"
-                >
-                  Enter
-                  <CornerDownLeft className="size-3" />
-                </button>
-              </div>
-              <div className="flex items-center gap-0.5 border-t border-white/[0.06] px-2 py-1.5">
-                <ToolBtn title="Emojis"><Smile className="size-3.5" /></ToolBtn>
-                <ToolBtn title="Stickers"><Sticker className="size-3.5" /></ToolBtn>
-                <ToolBtn title="GIF"><ImageIcon className="size-3.5" /></ToolBtn>
-                <Divider />
-                <ToolBtn title="Último comando"><span className="font-mono text-[11px]">/me waves</span></ToolBtn>
-                <ToolBtn title="Penúltimo comando"><span className="font-mono text-[11px]">/help</span></ToolBtn>
-                <Divider />
-                <ToolBtn title="Canales"><Hash className="size-3.5" /></ToolBtn>
-                <ToolBtn title="Configuración"><Settings className="size-3.5" /></ToolBtn>
-              </div>
-            </form>
-          </div>
-        )}
+        <AnimatePresence initial={false}>
+          {typing && (
+            <motion.div
+              key="chat-input"
+              initial={{ opacity: 0, y: -8, scale: 0.98, filter: "blur(4px)" }}
+              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -6, scale: 0.98, filter: "blur(4px)" }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="pointer-events-auto mt-3 origin-top overflow-hidden rounded-lg border border-white/15 bg-neutral-950 shadow-2xl"
+            >
+              <form onSubmit={submit}>
+                <div className="flex items-center gap-2 px-3 py-2">
+                  <span className="select-none text-[12px] font-medium uppercase tracking-wider text-white/40">Say</span>
+                  <input
+                    ref={inputRef}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={onInputKey}
+                    onBlur={() => !input && setTyping(false)}
+                    maxLength={144}
+                    className="flex-1 bg-transparent text-[14px] font-normal text-white outline-none placeholder:text-white/30"
+                    placeholder="Message…"
+                    autoComplete="off"
+                    spellCheck={false}
+                  />
+                  <button
+                    type="submit"
+                    onMouseDown={(e) => e.preventDefault()}
+                    title="Enviar (Enter)"
+                    className="flex shrink-0 items-center gap-1 rounded-md border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[11px] font-medium text-white/70 transition hover:border-white/20 hover:bg-white/[0.12] hover:text-white"
+                  >
+                    Enter
+                    <CornerDownLeft className="size-3" />
+                  </button>
+                </div>
+                <div className="flex items-center gap-0.5 border-t border-white/[0.06] px-2 py-1.5">
+                  <ToolBtn title="Emojis"><Smile className="size-3.5" /></ToolBtn>
+                  <ToolBtn title="Stickers"><Sticker className="size-3.5" /></ToolBtn>
+                  <ToolBtn title="GIF"><ImageIcon className="size-3.5" /></ToolBtn>
+                  <Divider />
+                  <ToolBtn title="Último comando"><span className="font-mono text-[11px]">/me waves</span></ToolBtn>
+                  <ToolBtn title="Penúltimo comando"><span className="font-mono text-[11px]">/help</span></ToolBtn>
+                  <Divider />
+                  <ToolBtn title="Canales"><Hash className="size-3.5" /></ToolBtn>
+                  <ToolBtn title="Configuración"><Settings className="size-3.5" /></ToolBtn>
+                </div>
+              </form>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </main>
   );
