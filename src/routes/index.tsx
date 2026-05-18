@@ -287,7 +287,7 @@ function ChatLine({ m }: { m: ChatMessage }) {
   if (m.type === "chat") {
     const isOther = m.author && m.author !== "You";
     return (
-      <div ref={ref} className="relative text-white/90">
+      <div ref={ref} className="group relative text-white/90">
         <button
           type="button"
           disabled={!isOther}
