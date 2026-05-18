@@ -90,9 +90,18 @@ function Index() {
   const onListScroll = () => {
     const el = listRef.current;
     if (!el) return;
-    const isBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 8;
+    const distance = el.scrollHeight - el.scrollTop - el.clientHeight;
+    const isBottom = distance < 8;
     atBottomRef.current = isBottom;
-    if (isBottom) setUnread(0);
+    if (isBottom) {
+      setUnread(0);
+    } else {
+      // Dynamically reduce unread as user scrolls down toward the bottom.
+      // Approximate one message ~ one line-height (≈ 20px).
+      const perMessage = 20;
+      const remaining = Math.min(unread, Math.ceil(distance / perMessage));
+      if (remaining !== unread) setUnread(remaining);
+    }
   };
 
 
