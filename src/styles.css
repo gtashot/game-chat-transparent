@@ -175,16 +175,16 @@
   font-family: ui-sans-serif, system-ui, -apple-system, "Inter", "SF Pro Text", sans-serif;
   font-weight: 600;
   letter-spacing: 0;
-  text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000, 0 2px 4px rgba(0, 0, 0, 0.9);
+  text-shadow: none;
   -webkit-font-smoothing: antialiased;
 }
 
 /* Subtle dark backdrop so transparency reads */
 .bg-samp-scene {
-  background:
-    radial-gradient(ellipse at 25% 15%, rgba(120, 120, 120, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse at 80% 85%, rgba(60, 60, 60, 0.25) 0%, transparent 60%),
-    linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 60%, #050505 100%);
+  background-image: url('/gta-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .bg-samp-vignette {
@@ -192,8 +192,18 @@
     radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.6) 100%);
 }
 
-.samp-scroll::-webkit-scrollbar { width: 4px; }
+/* Subtle translucent scrollbar — GTA-like overlay */
+.samp-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
 .samp-scroll::-webkit-scrollbar-track { background: transparent; }
-.samp-scroll::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 2px; }
-.samp-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
-.samp-scroll { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.12) transparent; }
+.samp-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 9999px;
+  transition: background 0.2s ease;
+}
+.samp-scroll:hover::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.45); }
+.samp-scroll::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.6); }
+.samp-scroll { scrollbar-width: thin; scrollbar-color: rgba(0, 0, 0, 0.3) transparent; }
+
+/* Hidden scrollbar when chat input is closed */
+.samp-scroll-hidden::-webkit-scrollbar { width: 0; height: 0; display: none; }
+.samp-scroll-hidden { scrollbar-width: none; -ms-overflow-style: none; }
