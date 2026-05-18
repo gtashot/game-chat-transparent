@@ -90,9 +90,18 @@ function Index() {
   const onListScroll = () => {
     const el = listRef.current;
     if (!el) return;
-    const isBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 8;
+    const distance = el.scrollHeight - el.scrollTop - el.clientHeight;
+    const isBottom = distance < 8;
     atBottomRef.current = isBottom;
-    if (isBottom) setUnread(0);
+    if (isBottom) {
+      setUnread(0);
+    } else {
+      // Dynamically reduce unread as user scrolls down toward the bottom.
+      // Approximate one message ~ one line-height (≈ 20px).
+      const perMessage = 20;
+      const remaining = Math.min(unread, Math.ceil(distance / perMessage));
+      if (remaining !== unread) setUnread(remaining);
+    }
   };
 
 
@@ -278,7 +287,7 @@ function ChatLine({ m }: { m: ChatMessage }) {
   if (m.type === "chat") {
     const isOther = m.author && m.author !== "You";
     return (
-      <div ref={ref} className="relative text-white/90">
+      <div ref={ref} className="group relative text-white/90">
         <button
           type="button"
           disabled={!isOther}
@@ -313,6 +322,16 @@ function ChatLine({ m }: { m: ChatMessage }) {
             <MenuItem icon={<Reply className="size-3.5" />}>Responder</MenuItem>
             <MenuItem icon={<Flag className="size-3.5" />}>Reportar</MenuItem>
           </div>
+        )}
+        {isOther && (
+          <button
+            type="button"
+            title="Responder"
+            onMouseDown={(e) => e.preventDefault()}
+            className="pointer-events-auto absolute right-0 top-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center rounded-md border border-white/10 bg-neutral-950/90 text-white/70 opacity-0 shadow transition group-hover:opacity-100 hover:border-white/20 hover:text-white"
+          >
+            <Reply className="size-3.5" />
+          </button>
         )}
       </div>
     );
