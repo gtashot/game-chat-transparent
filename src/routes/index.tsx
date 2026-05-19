@@ -174,6 +174,9 @@ function Index() {
       </div>
 
 
+      {/* Player info card */}
+      <PlayerCard />
+
       {/* GTA V style notifications */}
       <Notifications />
 
@@ -482,7 +485,7 @@ function Notifications() {
   }, []);
 
   return (
-    <div className="pointer-events-none absolute right-5 top-20 z-30 flex w-[340px] flex-col items-end gap-2">
+    <div className="pointer-events-none absolute right-5 top-[110px] z-30 flex w-[340px] flex-col items-end gap-2">
       <AnimatePresence initial={false}>
         {items.map((n) => (
           <motion.div
@@ -609,4 +612,39 @@ function Minimap() {
 
 
 
+
+function PlayerCard() {
+  return (
+    <div className="pointer-events-none absolute right-5 top-20 z-30 select-none">
+      <div className="relative flex items-stretch gap-3">
+        {/* Gradient long bar fading to the left */}
+        <div className="relative flex w-[320px] items-center justify-end overflow-hidden rounded-sm pl-16 pr-4">
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to left, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.2) 75%, rgba(0,0,0,0) 100%)",
+            }}
+          />
+          <div className="samp-text relative text-right leading-tight">
+            <div className="text-[15px] font-semibold uppercase tracking-wider text-white">Jason</div>
+            <div className="mt-0.5 text-[12px] font-medium uppercase tracking-wider text-white/85">Friday 12:09</div>
+            <div className="mt-0.5 text-[13px] font-semibold text-emerald-300">$627</div>
+          </div>
+        </div>
+        {/* Avatar */}
+        <div className="relative size-[78px] shrink-0 overflow-hidden rounded-sm border border-white/10 bg-black shadow-[0_4px_18px_rgba(0,0,0,0.6)]">
+          <img
+            src="/player-avatar.jpg"
+            alt="Player avatar"
+            width={512}
+            height={512}
+            loading="lazy"
+            className="size-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
 
