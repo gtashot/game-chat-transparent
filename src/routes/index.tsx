@@ -162,7 +162,7 @@ function Index() {
       <div className="samp-text pointer-events-none absolute right-5 top-5 select-none text-right text-[12px] font-semibold leading-tight text-white">
         <div className="flex items-center justify-end gap-1.5">
           <span>Press</span>
-          <kbd className="rounded border border-white/20 bg-neutral-950 px-1.5 py-0.5 font-mono text-[11px] text-white">T</kbd>
+          <kbd className="rounded border border-white/60 bg-neutral-950/60 px-1.5 py-0.5 font-mono text-[11px] text-white shadow-[0_0_0_1px_rgba(255,255,255,0.15)]">T</kbd>
           <span>to chat</span>
         </div>
         <div className="mt-1 text-white/80">Try /me waves</div>
