@@ -323,16 +323,6 @@ function ChatLine({ m }: { m: ChatMessage }) {
             <MenuItem icon={<Flag className="size-3.5" />}>Reportar</MenuItem>
           </div>
         )}
-        {isOther && (
-          <button
-            type="button"
-            title="Responder"
-            onMouseDown={(e) => e.preventDefault()}
-            className="pointer-events-auto absolute right-0 top-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center rounded-md border border-white/10 bg-neutral-950/90 text-white/70 opacity-0 shadow transition group-hover:opacity-100 hover:border-white/20 hover:text-white"
-          >
-            <Reply className="size-3.5" />
-          </button>
-        )}
       </div>
     );
   }
