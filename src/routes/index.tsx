@@ -485,7 +485,7 @@ function Notifications() {
   }, []);
 
   return (
-    <div className="pointer-events-none absolute right-5 top-20 z-30 flex w-[340px] flex-col items-end gap-2">
+    <div className="pointer-events-none absolute right-5 top-[110px] z-30 flex w-[340px] flex-col items-end gap-2">
       <AnimatePresence initial={false}>
         {items.map((n) => (
           <motion.div
