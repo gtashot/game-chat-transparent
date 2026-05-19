@@ -168,6 +168,12 @@ function Index() {
         <div className="mt-1 text-white/80">Try /me waves</div>
       </div>
 
+      {/* Watermark */}
+      <div className="samp-text pointer-events-none absolute bottom-3 right-5 select-none font-mono text-[11px] text-white/50">
+        gtashot.com v1.0.0
+      </div>
+
+
       {/* GTA V style notifications */}
       <Notifications />
 
