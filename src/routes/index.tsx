@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Smile, Sticker, Image as ImageIcon, Hash, Settings, CornerDownLeft, ArrowDown, UserPlus, EyeOff, Ban, Flag, Reply, Crown, Briefcase, Phone, ShieldAlert, Car, DollarSign, Radio, type LucideIcon } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -273,59 +275,70 @@ function Index() {
 
 function ChatLine({ m }: { m: ChatMessage }) {
   const [openMenu, setOpenMenu] = useState<null | "name" | "msg">(null);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!openMenu) return;
-    const onDown = (e: MouseEvent) => {
-      if (!ref.current?.contains(e.target as Node)) setOpenMenu(null);
-    };
-    window.addEventListener("mousedown", onDown);
-    return () => window.removeEventListener("mousedown", onDown);
-  }, [openMenu]);
 
   if (m.type === "chat") {
-    const isOther = m.author && m.author !== "You";
+    const isOther = !!m.author && m.author !== "You";
     return (
-      <div ref={ref} className="group relative text-white/90">
-        <button
-          type="button"
-          disabled={!isOther}
-          onMouseDown={(e) => e.preventDefault()}
-          onClick={() => isOther && setOpenMenu(openMenu === "name" ? null : "name")}
-          className="font-semibold text-white hover:underline disabled:no-underline disabled:cursor-default"
+      <div className="text-white/90">
+        <Popover
+          open={openMenu === "name"}
+          onOpenChange={(o) => setOpenMenu(o ? "name" : null)}
         >
-          {m.author}
-        </button>
-        <span className="text-white/50">: </span>
-        <button
-          type="button"
-          disabled={!isOther}
-          onMouseDown={(e) => e.preventDefault()}
-          onClick={() => isOther && setOpenMenu(openMenu === "msg" ? null : "msg")}
-          className="text-left text-white/85 hover:text-white disabled:hover:text-white/85 disabled:cursor-default"
-        >
-          {m.text}
-        </button>
-        {openMenu === "name" && isOther && (
-          <div className="absolute left-0 top-full z-20 mt-1 min-w-[180px] overflow-hidden rounded-md border border-white/15 bg-neutral-950">
-            <div className="border-b border-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider" style={{ color: m.color ?? "#fff" }}>
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              disabled={!isOther}
+              onMouseDown={(e) => e.preventDefault()}
+              className="font-semibold text-white hover:underline disabled:no-underline disabled:cursor-default"
+            >
               {m.author}
-            </div>
-            <MenuItem icon={<UserPlus className="size-3.5" />}>Agregar como amigo</MenuItem>
-            <MenuItem icon={<EyeOff className="size-3.5" />}>Ocultar</MenuItem>
-            <MenuItem icon={<Ban className="size-3.5" />}>Ignorar</MenuItem>
-          </div>
-        )}
-        {openMenu === "msg" && isOther && (
-          <div className="absolute left-0 top-full z-20 mt-1 min-w-[160px] overflow-hidden rounded-md border border-white/15 bg-neutral-950">
-            <MenuItem icon={<Reply className="size-3.5" />}>Responder</MenuItem>
-            <MenuItem icon={<Flag className="size-3.5" />}>Reportar</MenuItem>
-          </div>
-        )}
+            </button>
+          </PopoverTrigger>
+          {isOther && (
+            <PopoverContent
+              align="start"
+              sideOffset={4}
+              className="z-[60] w-auto min-w-[180px] overflow-hidden rounded-md border border-white/15 bg-neutral-950 p-0 text-white"
+            >
+              <div className="border-b border-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider" style={{ color: m.color ?? "#fff" }}>
+                {m.author}
+              </div>
+              <MenuItem icon={<UserPlus className="size-3.5" />}>Agregar como amigo</MenuItem>
+              <MenuItem icon={<EyeOff className="size-3.5" />}>Ocultar</MenuItem>
+              <MenuItem icon={<Ban className="size-3.5" />}>Ignorar</MenuItem>
+            </PopoverContent>
+          )}
+        </Popover>
+        <span className="text-white/50">: </span>
+        <Popover
+          open={openMenu === "msg"}
+          onOpenChange={(o) => setOpenMenu(o ? "msg" : null)}
+        >
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              disabled={!isOther}
+              onMouseDown={(e) => e.preventDefault()}
+              className="text-left text-white/85 hover:text-white disabled:hover:text-white/85 disabled:cursor-default"
+            >
+              {m.text}
+            </button>
+          </PopoverTrigger>
+          {isOther && (
+            <PopoverContent
+              align="start"
+              sideOffset={4}
+              className="z-[60] w-auto min-w-[160px] overflow-hidden rounded-md border border-white/15 bg-neutral-950 p-0 text-white"
+            >
+              <MenuItem icon={<Reply className="size-3.5" />}>Responder</MenuItem>
+              <MenuItem icon={<Flag className="size-3.5" />}>Reportar</MenuItem>
+            </PopoverContent>
+          )}
+        </Popover>
       </div>
     );
   }
+
   if (m.type === "action") return <div className="italic text-white/55">{m.text}</div>;
   if (m.type === "server") return <div className="text-white/45">{m.text}</div>;
   return <div className="text-white/60">{m.text}</div>;
