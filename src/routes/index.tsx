@@ -174,6 +174,9 @@ function Index() {
       </div>
 
 
+      {/* Player info card */}
+      <PlayerCard />
+
       {/* GTA V style notifications */}
       <Notifications />
 
